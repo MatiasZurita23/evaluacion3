@@ -97,7 +97,36 @@ export function TodoList(){
         setTodos(newTodos);
     }
 
-   
+    const cantidadTareasCompletadas = () =>{
+        return todos.filter((todo)=> todo.completed).length;
+    }
+    
+    const cantidadTareasPendentes = () =>{
+        return todos.filter((todo)=> !todo.completed).length;
+    }
+    
+    const calcularPorcentaje = (tareasCompletadas,tareasPendentes) => {
+        return Math.round((tareasCompletadas/tareasPendentes)*100);
+    }
+
+    // ESTOS SON LOS COMPONENTES LOCALES    
+    const ResumenTareas2 = () =>{    //  COMPONENTE LOCAL Resumen Tarea
+        const cant = cantidadTareas()
+        const tareasCompletadas = cantidadTareasCompletadas()
+        const tareasPendentes = cantidadTareasPendentes()
+        const porcentaje = calcularPorcentaje(tareasCompletadas,tareasPendentes)
+        
+        return(
+            // ACA HAREMOS LA BARRA DE PROGRESO
+            <div>
+                <span className="badge bg-success">Tareas Completadas: {tareasCompletadas}</span>
+                <div className="progress mt-3">
+                    <div className="progress-bar bg-success" role="progressbar" style={{width: `${porcentaje}%`}} aria-valuenow={porcentaje} aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        )
+
+    }
 
     return(
 
@@ -116,6 +145,7 @@ export function TodoList(){
             </ul>
 
              <ResumenTareas/> {/* Nuevo Compontente  "Local" */}
+             <ResumenTareas2/> {/* Nuevo Compontente  "Local" */}
          </Fragment>
     );
 }
